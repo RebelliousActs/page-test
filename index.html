@@ -1,0 +1,693 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Invitación de Boda - María & Juan</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Estilos generales */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Playfair Display', serif;
+            background-color: #fffaf5;
+            color: #5d4037;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        section {
+            padding: 60px 0;
+            border-bottom: 1px solid #e0d6c9;
+        }
+        
+        h1, h2, h3 {
+            font-family: 'Great Vibes', cursive;
+            color: #8d6e63;
+        }
+        
+        h1 {
+            font-size: 4.5rem;
+            margin-bottom: 20px;
+        }
+        
+        h2 {
+            font-size: 3rem;
+            text-align: center;
+            margin-bottom: 40px;
+            position: relative;
+        }
+        
+        h2:after {
+            content: "";
+            display: block;
+            width: 100px;
+            height: 2px;
+            background: #d7ccc8;
+            margin: 15px auto;
+        }
+        
+        h3 {
+            font-size: 2rem;
+            margin-bottom: 15px;
+        }
+        
+        p {
+            margin-bottom: 15px;
+        }
+        
+        .btn {
+            display: inline-block;
+            background: #d4a373;
+            color: white;
+            padding: 12px 25px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            font-family: inherit;
+            font-size: 1rem;
+        }
+        
+        .btn:hover {
+            background: #c19465;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        /* Header */
+        header {
+            background: linear-gradient(rgba(255, 250, 245, 0.8), rgba(255, 250, 245, 0.8)), url('https://images.unsplash.com/photo-1520854221256-17451cc331bf?ixlib=rb-4.0.3&auto=format&fit=crop&w=1950&q=80');
+            background-size: cover;
+            background-position: center;
+            text-align: center;
+            padding: 100px 20px;
+            position: relative;
+        }
+        
+        .header-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .date {
+            font-size: 1.5rem;
+            margin: 20px 0;
+            letter-spacing: 3px;
+        }
+        
+        .location {
+            font-size: 1.2rem;
+            margin-bottom: 30px;
+        }
+        
+        /* Formulario */
+        .form-section {
+            background-color: #f8f0e5;
+        }
+        
+        .form-container {
+            max-width: 600px;
+            margin: 0 auto;
+            background: white;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+        }
+        
+        input, select, textarea {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #e0d6c9;
+            border-radius: 5px;
+            font-family: inherit;
+            font-size: 1rem;
+        }
+        
+        textarea {
+            min-height: 100px;
+        }
+        
+        .radio-group {
+            display: flex;
+            gap: 20px;
+            margin-top: 5px;
+        }
+        
+        .radio-option {
+            display: flex;
+            align-items: center;
+        }
+        
+        .radio-option input {
+            width: auto;
+            margin-right: 8px;
+        }
+        
+        .form-message {
+            margin-top: 20px;
+            padding: 10px;
+            border-radius: 5px;
+            text-align: center;
+            display: none;
+        }
+        
+        .success {
+            background: #e8f5e9;
+            color: #2e7d32;
+            border: 1px solid #a5d6a7;
+        }
+        
+        .error {
+            background: #ffebee;
+            color: #c62828;
+            border: 1px solid #ef9a9a;
+        }
+        
+        /* Ubicación */
+        .map-container {
+            height: 400px;
+            width: 100%;
+            margin: 30px 0;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        #map {
+            height: 100%;
+            width: 100%;
+        }
+        
+        /* Hoteles */
+        .hotels-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+        
+        .hotel-card {
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            transition: transform 0.3s ease;
+        }
+        
+        .hotel-card:hover {
+            transform: translateY(-10px);
+        }
+        
+        .hotel-image {
+            height: 200px;
+            background-size: cover;
+            background-position: center;
+        }
+        
+        .hotel-content {
+            padding: 20px;
+        }
+        
+        .hotel-info {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+        
+        .hotel-rating {
+            color: #d4a373;
+        }
+        
+        .hotel-price {
+            font-weight: bold;
+            color: #8d6e63;
+        }
+        
+        .hotel-contact {
+            margin-top: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        /* Código de vestimenta */
+        .dress-code-section {
+            background-color: #f8f0e5;
+        }
+        
+        .dress-container {
+            max-width: 800px;
+            margin: 0 auto;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 30px;
+            justify-content: center;
+        }
+        
+        .dress-card {
+            background: white;
+            border-radius: 10px;
+            padding: 30px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            flex: 1;
+            min-width: 250px;
+        }
+        
+        .dress-icon {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            color: #d4a373;
+        }
+        
+        /* PDF Section */
+        .pdf-container {
+            text-align: center;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .pdf-icon {
+            font-size: 4rem;
+            color: #d4a373;
+            margin-bottom: 20px;
+        }
+        
+        /* Footer */
+        footer {
+            background: #5d4037;
+            color: #efebe9;
+            text-align: center;
+            padding: 40px 20px;
+        }
+        
+        .footer-logo {
+            font-family: 'Great Vibes', cursive;
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+        }
+        
+        .social-icons {
+            margin: 20px 0;
+        }
+        
+        .social-icons a {
+            display: inline-block;
+            color: #efebe9;
+            background: rgba(255,255,255,0.1);
+            width: 40px;
+            height: 40px;
+            line-height: 40px;
+            border-radius: 50%;
+            margin: 0 5px;
+            transition: all 0.3s ease;
+        }
+        
+        .social-icons a:hover {
+            background: #d4a373;
+            transform: translateY(-3px);
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 3.5rem;
+            }
+            
+            h2 {
+                font-size: 2.5rem;
+            }
+            
+            .form-container {
+                padding: 25px;
+            }
+            
+            .dress-container {
+                flex-direction: column;
+            }
+        }
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Great+Vibes&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Header con imagen de fondo -->
+    <header>
+        <div class="header-content">
+            <h1>María & Juan</h1>
+            <div class="date">25 de Diciembre, 2025</div>
+            <div class="location">Hacienda Santa María, Ciudad de México</div>
+            <p>Con gran alegría los invitamos a compartir este día tan especial</p>
+        </div>
+    </header>
+
+    <div class="container">
+        <!-- Sección de Formulario -->
+        <section class="form-section">
+            <h2>Confirmación de Asistencia</h2>
+            <div class="form-container">
+                <form id="wedding-form">
+                    <div class="form-group">
+                        <label for="name">Nombre completo</label>
+                        <input type="text" id="name" name="name" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="email">Correo electrónico</label>
+                        <input type="email" id="email" name="email" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="guests">Número de invitados</label>
+                        <input type="number" id="guests" name="guests" min="1" value="1" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>¿Asistirás a nuestra boda?</label>
+                        <div class="radio-group">
+                            <div class="radio-option">
+                                <input type="radio" id="attendance-yes" name="attendance" value="Sí" required>
+                                <label for="attendance-yes">¡Sí, con gusto!</label>
+                            </div>
+                            <div class="radio-option">
+                                <input type="radio" id="attendance-no" name="attendance" value="No">
+                                <label for="attendance-no">Lamentablemente no</label>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="requirements">Requerimientos especiales (alimentación, accesibilidad, etc.)</label>
+                        <textarea id="requirements" name="requirements"></textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="message">Mensaje para los novios (opcional)</label>
+                        <textarea id="message" name="message"></textarea>
+                    </div>
+                    
+                    <button type="submit" class="btn">Confirmar Asistencia</button>
+                </form>
+                
+                <div id="form-message" class="form-message"></div>
+            </div>
+        </section>
+
+        <!-- Sección de Ubicación -->
+        <section>
+            <h2>Ubicación de la Ceremonia</h2>
+            <p class="text-center">La ceremonia y recepción se llevarán a cabo en:</p>
+            <p class="text-center"><strong>Hacienda Santa María</strong><br>Calle de las Flores #123, Ciudad de México</p>
+            
+            <div class="map-container">
+                <div id="map"></div>
+            </div>
+            
+            <div class="text-center" style="margin-top: 20px;">
+                <a href="https://maps.app.goo.gl/example" target="_blank" class="btn">
+                    <i class="fas fa-map-marker-alt"></i> Ver en Google Maps
+                </a>
+            </div>
+        </section>
+
+        <!-- Sección de Hoteles -->
+        <section class="hotels-section">
+            <h2>Sugerencias de Hospedaje</h2>
+            <p class="text-center">Hemos seleccionado estos hoteles cercanos para tu comodidad:</p>
+            
+            <div class="hotels-container">
+                <div class="hotel-card">
+                    <div class="hotel-image" style="background-image: url('https://images.unsplash.com/photo-1566073771259-6a8506099945?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80');"></div>
+                    <div class="hotel-content">
+                        <h3>Hotel Boutique Las Flores</h3>
+                        <div class="hotel-info">
+                            <div class="hotel-rating">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                            </div>
+                            <div class="hotel-price">$1,500 MXN/noche</div>
+                        </div>
+                        <p>A 2km de la hacienda. Habitaciones con vista al jardín.</p>
+                        <div class="hotel-contact">
+                            <i class="fas fa-phone"></i> (55) 1234-5678
+                        </div>
+                        <a href="#" class="btn" style="margin-top: 15px;">Visitar Sitio</a>
+                    </div>
+                </div>
+                
+                <div class="hotel-card">
+                    <div class="hotel-image" style="background-image: url('https://images.unsplash.com/photo-1611892440504-42a792e24d32?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80');"></div>
+                    <div class="hotel-content">
+                        <h3>Gran Hotel Central</h3>
+                        <div class="hotel-info">
+                            <div class="hotel-rating">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                            </div>
+                            <div class="hotel-price">$2,800 MXN/noche</div>
+                        </div>
+                        <p>A 5km de la hacienda. Servicio de lujo con spa y alberca.</p>
+                        <div class="hotel-contact">
+                            <i class="fas fa-phone"></i> (55) 8765-4321
+                        </div>
+                        <a href="#" class="btn" style="margin-top: 15px;">Visitar Sitio</a>
+                    </div>
+                </div>
+                
+                <div class="hotel-card">
+                    <div class="hotel-image" style="background-image: url('https://images.unsplash.com/photo-1582719508461-905c673771fd?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80');"></div>
+                    <div class="hotel-content">
+                        <h3>Posada del Sol</h3>
+                        <div class="hotel-info">
+                            <div class="hotel-rating">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                            </div>
+                            <div class="hotel-price">$1,200 MXN/noche</div>
+                        </div>
+                        <p>A 3km de la hacienda. Ambiente familiar y acogedor.</p>
+                        <div class="hotel-contact">
+                            <i class="fas fa-phone"></i> (55) 5555-1212
+                        </div>
+                        <a href="#" class="btn" style="margin-top: 15px;">Visitar Sitio</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Código de Vestimenta -->
+        <section class="dress-code-section">
+            <h2>Código de Vestimenta</h2>
+            
+            <div class="dress-container">
+                <div class="dress-card">
+                    <div class="dress-icon">
+                        <i class="fas fa-vest"></i>
+                    </div>
+                    <h3>Caballeros</h3>
+                    <p><strong>Traje formal</strong></p>
+                    <p>Preferentemente traje oscuro (azul marino, gris oscuro o negro)</p>
+                    <p>Corbata o corbatín elegante</p>
+                </div>
+                
+                <div class="dress-card">
+                    <div class="dress-icon">
+                        <i class="fas fa-tshirt"></i>
+                    </div>
+                    <h3>Damas</h3>
+                    <p><strong>Vestido de cóctel</strong></p>
+                    <p>Vestido elegante hasta la rodilla o largo</p>
+                    <p>Colores: Pasteles, dorados, plateados</p>
+                </div>
+                
+                <div class="dress-card">
+                    <div class="dress-icon">
+                        <i class="fas fa-ban"></i>
+                    </div>
+                    <h3>Evitar</h3>
+                    <p>Ropa casual (jeans, shorts, playeras)</p>
+                    <p>Colores blancos o tonos crema intensos</p>
+                    <p>Tenis o calzado deportivo</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Información adicional en PDF -->
+        <section>
+            <h2>Más Información</h2>
+            <div class="pdf-container">
+                <div class="pdf-icon">
+                    <i class="far fa-file-pdf"></i>
+                </div>
+                <p>Descarga nuestro PDF con toda la información adicional sobre:</p>
+                <ul style="list-style: none; margin: 20px 0; text-align: left; display: inline-block;">
+                    <li><i class="fas fa-check-circle" style="color: #d4a373;"></i> Itinerario completo del día</li>
+                    <li><i class="fas fa-check-circle" style="color: #d4a373;"></i> Opciones de transporte</li>
+                    <li><i class="fas fa-check-circle" style="color: #d4a373;"></i> Lista de regalos</li>
+                    <li><i class="fas fa-check-circle" style="color: #d4a373;"></i> Preguntas frecuentes</li>
+                </ul>
+                <a href="informacion_boda.pdf" download class="btn">
+                    <i class="fas fa-download"></i> Descargar Información (PDF)
+                </a>
+            </div>
+        </section>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-logo">María & Juan</div>
+        <p>25 de Diciembre, 2025</p>
+        <p>Hacienda Santa María, Ciudad de México</p>
+        
+        <div class="social-icons">
+            <a href="#"><i class="fab fa-instagram"></i></a>
+            <a href="#"><i class="fab fa-facebook-f"></i></a>
+            <a href="#"><i class="fab fa-pinterest"></i></a>
+        </div>
+        
+        <p>© 2025 - Todos los derechos reservados</p>
+    </footer>
+
+    <!-- Scripts -->
+    <script>
+        // Inicializar el mapa
+        function initMap() {
+            // Coordenadas de la hacienda (ejemplo)
+            const location = { lat: 19.432608, lng: -99.133209 };
+            const map = new google.maps.Map(document.getElementById("map"), {
+                zoom: 15,
+                center: location,
+                styles: [
+                    {
+                        featureType: "all",
+                        elementType: "labels.text.fill",
+                        stylers: [{ saturation: 36 }, { color: "#5d4037" }, { lightness: 40 }]
+                    },
+                    {
+                        featureType: "all",
+                        elementType: "labels.text.stroke",
+                        stylers: [{ visibility: "on" }, { color: "#f8f0e5" }, { lightness: 16 }]
+                    },
+                    {
+                        featureType: "all",
+                        elementType: "labels.icon",
+                        stylers: [{ visibility: "off" }]
+                    },
+                    {
+                        featureType: "administrative",
+                        elementType: "geometry.fill",
+                        stylers: [{ color: "#f8f0e5" }, { lightness: 20 }]
+                    },
+                    {
+                        featureType: "administrative",
+                        elementType: "geometry.stroke",
+                        stylers: [{ color: "#f8f0e5" }, { lightness: 17 }, { weight: 1.2 }]
+                    },
+                    {
+                        featureType: "landscape",
+                        elementType: "geometry",
+                        stylers: [{ color: "#f8f0e5" }, { lightness: 20 }]
+                    },
+                    {
+                        featureType: "poi",
+                        elementType: "geometry",
+                        stylers: [{ color: "#f8f0e5" }, { lightness: 21 }]
+                    },
+                    {
+                        featureType: "road.highway",
+                        elementType: "geometry.fill",
+                        stylers: [{ color: "#d4a373" }, { lightness: 17 }]
+                    },
+                    {
+                        featureType: "road.highway",
+                        elementType: "geometry.stroke",
+                        stylers: [{ color: "#d4a373" }, { lightness: 29 }, { weight: 0.2 }]
+                    },
+                    {
+                        featureType: "road.arterial",
+                        elementType: "geometry",
+                        stylers: [{ color: "#efebe9" }, { lightness: 18 }]
+                    },
+                    {
+                        featureType: "road.local",
+                        elementType: "geometry",
+                        stylers: [{ color: "#efebe9" }, { lightness: 16 }]
+                    },
+                    {
+                        featureType: "transit",
+                        elementType: "geometry",
+                        stylers: [{ color: "#f8f0e5" }, { lightness: 19 }]
+                    },
+                    {
+                        featureType: "water",
+                        elementType: "geometry",
+                        stylers: [{ color: "#d4a373" }, { lightness: 17 }]
+                    }
+                ]
+            });
+            
+            new google.maps.Marker({
+                position: location,
+                map: map,
+                title: "Hacienda Santa María"
+            });
+        }
+        
+        // Manejar el envío del formulario
+        document.getElementById("wedding-form").addEventListener("submit", function(e) {
+            e.preventDefault();
+            
+            // Simulación de envío a Google Sheets
+            const form = e.target;
+            const formData = new FormData(form);
+            const messageDiv = document.getElementById("form-message");
+            
+            // Simular envío con un retraso
+            messageDiv.textContent = "Enviando tu confirmación...";
+            messageDiv.className = "form-message";
+            messageDiv.style.display = "block";
+            
+            setTimeout(() => {
+                // Aquí normalmente se enviarían los datos a Google Sheets
+                // Para este ejemplo, mostramos un mensaje de éxito
+                messageDiv.textContent = "¡Gracias por confirmar tu asistencia! Hemos recibido tu información.";
+                messageDiv.className = "form-message success";
+                
+                // Resetear el formulario después de un tiempo
+                setTimeout(() => {
+                    form.reset();
+                }, 3000);
+            }, 1500);
+        });
+    </script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD4VkG0y9X0yX7Qd6w8Yw7V2LkHvZ7b4w4&callback=initMap" async defer></script>
+</body>
+</html>
