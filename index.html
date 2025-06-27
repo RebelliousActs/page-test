@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Invitación de Boda - María & Juan</title>
+    <title>Invitación de Boda - Úrsula & Daniel</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         /* Estilos generales */
@@ -85,6 +85,10 @@
             background: #c19465;
             transform: translateY(-2px);
             box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .text-center {
+            text-align: center;
         }
         
         /* Header */
@@ -356,9 +360,9 @@
     <!-- Header con imagen de fondo -->
     <header>
         <div class="header-content">
-            <h1>María & Juan</h1>
-            <div class="date">25 de Diciembre, 2025</div>
-            <div class="location">Hacienda Santa María, Ciudad de México</div>
+            <h1>Úrsula & Daniel</h1>
+            <div class="date">22 de Noviembre, 2025</div>
+            <div class="location">Quinta la Soledad, San Cristóbal de Las Casas</div>
             <p>Con gran alegría los invitamos a compartir este día tan especial</p>
         </div>
     </header>
@@ -419,14 +423,14 @@
         <section>
             <h2>Ubicación de la Ceremonia</h2>
             <p class="text-center">La ceremonia y recepción se llevarán a cabo en:</p>
-            <p class="text-center"><strong>Hacienda Santa María</strong><br>Calle de las Flores #123, Ciudad de México</p>
+            <p class="text-center"><strong>Quinta la Soledad</strong><br>La Quinta, Calz. de la Escuela 14, San Martin, 29247 San Cristóbal de las Casas, Chis.</p>
             
             <div class="map-container">
                 <div id="map"></div>
             </div>
             
             <div class="text-center" style="margin-top: 20px;">
-                <a href="https://maps.app.goo.gl/example" target="_blank" class="btn">
+                <a href="https://maps.app.goo.gl/CYMvphrpaQVLvAs78?g_st=aw" target="_blank" class="btn">
                     <i class="fas fa-map-marker-alt"></i> Ver en Google Maps
                 </a>
             </div>
@@ -563,9 +567,9 @@
 
     <!-- Footer -->
     <footer>
-        <div class="footer-logo">María & Juan</div>
-        <p>25 de Diciembre, 2025</p>
-        <p>Hacienda Santa María, Ciudad de México</p>
+        <div class="footer-logo">Úrsula & Daniel</div>
+        <p>22 de Noviembre, 2025</p>
+        <p>Quinta la Soledad, San Cristóbal de Las Casas</p>
         
         <div class="social-icons">
             <a href="#"><i class="fab fa-instagram"></i></a>
@@ -580,8 +584,8 @@
     <script>
         // Inicializar el mapa
         function initMap() {
-            // Coordenadas de la hacienda (ejemplo)
-            const location = { lat: 19.432608, lng: -99.133209 };
+            // Coordenadas de la quinta
+            const location = { lat: 16.75874590350032, lng: -92.67311373429949 };
             const map = new google.maps.Map(document.getElementById("map"), {
                 zoom: 15,
                 center: location,
@@ -657,7 +661,7 @@
             new google.maps.Marker({
                 position: location,
                 map: map,
-                title: "Hacienda Santa María"
+                title: "Quinta la Soledad"
             });
         }
         
@@ -665,27 +669,53 @@
         document.getElementById("wedding-form").addEventListener("submit", function(e) {
             e.preventDefault();
             
-            // Simulación de envío a Google Sheets
             const form = e.target;
             const formData = new FormData(form);
             const messageDiv = document.getElementById("form-message");
             
-            // Simular envío con un retraso
+            // Mostrar mensaje de envío
             messageDiv.textContent = "Enviando tu confirmación...";
             messageDiv.className = "form-message";
             messageDiv.style.display = "block";
             
-            setTimeout(() => {
-                // Aquí normalmente se enviarían los datos a Google Sheets
-                // Para este ejemplo, mostramos un mensaje de éxito
-                messageDiv.textContent = "¡Gracias por confirmar tu asistencia! Hemos recibido tu información.";
-                messageDiv.className = "form-message success";
-                
-                // Resetear el formulario después de un tiempo
-                setTimeout(() => {
-                    form.reset();
-                }, 3000);
-            }, 1500);
+            // Convertir FormData a objeto
+            const data = {};
+            formData.forEach((value, key) => data[key] = value);
+            
+            // URL DE TU APLICACIÓN WEB (reemplazar con la URL correcta)
+            const scriptURL = 'https://script.google.com/macros/s/AKfycbxEVAefKYJdno0MR3usj_T-x2XtAJb1BJDPNAT68ECbfw2BMEVZOA6xF5mQ0hHVVaQomg/exec';
+            
+            // Enviar datos a Google Apps Script
+            fetch(scriptURL, {
+                method: 'POST',
+                body: JSON.stringify(data),
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Error en la respuesta del servidor');
+                }
+                return response.json();
+            })
+            .then(result => {
+                if (result.success) {
+                    messageDiv.textContent = "¡Gracias por confirmar! Tu asistencia ha sido registrada.";
+                    messageDiv.className = "form-message success";
+                    // Resetear el formulario después de un tiempo
+                    setTimeout(() => {
+                        form.reset();
+                    }, 3000);
+                } else {
+                    throw new Error(result.error || 'Error desconocido');
+                }
+            })
+            .catch(error => {
+                messageDiv.textContent = "Error: " + error.message + ". Por favor, intenta de nuevo.";
+                messageDiv.className = "form-message error";
+                console.error('Error:', error);
+            });
         });
     </script>
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD4VkG0y9X0yX7Qd6w8Yw7V2LkHvZ7b4w4&callback=initMap" async defer></script>
