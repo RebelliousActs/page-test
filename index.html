@@ -674,7 +674,41 @@
             messageDiv.textContent = "Enviando tu confirmación...";
             messageDiv.className = "form-message";
             messageDiv.style.display = "block";
-            
+
+             // Convertir FormData a objeto
+        const data = {};
+        formData.forEach((value, key) => data[key] = value);
+        
+        // URL DE TU APLICACIÓN WEB (¡IMPORTANTE! PEGA AQUÍ TU URL)
+        const scriptURL = 'https://script.google.com/macros/s/AKfycbxEVAefKYJdno0MR3usj_T-x2XtAJb1BJDPNAT68ECbfw2BMEVZOA6xF5mQ0hHVVaQomg/exec
+';
+           // Enviar datos a Google Apps Script
+        fetch(scriptURL, {
+            method: 'POST',
+            body: JSON.stringify(data),
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+        .then(response => response.json())
+        .then(result => {
+            if (result.success) {
+                messageDiv.textContent = "¡Gracias por confirmar! Tu asistencia ha sido registrada.";
+                messageDiv.className = "form-message success";
+                // Resetear el formulario después de un tiempo
+                setTimeout(() => {
+                    form.reset();
+                }, 3000);
+            } else {
+                throw new Error(result.error || 'Error desconocido');
+            }
+        })
+        .catch(error => {
+            messageDiv.textContent = "Error: " + error.message + ". Por favor, intenta de nuevo.";
+            messageDiv.className = "form-message error";
+            console.error('Error:', error);
+        });
+            });
             setTimeout(() => {
                 // Aquí normalmente se enviarían los datos a Google Sheets
                 // Para este ejemplo, mostramos un mensaje de éxito
